@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Attendance Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">TA</div>
+        <div><strong>TeachTrack</strong><small>Attendance System</small></div>
+      </div>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-menu">
+        <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-link" data-page="teachers"><span>♙</span> Teachers</button>
+        <button class="nav-link" data-page="attendance"><span>✓</span> Attendance</button>
+        <button class="nav-link" data-page="reports"><span>▤</span> Reports</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="secure-note"><span class="secure-dot"></span><div><b>Local storage</b><small>Your data stays in this browser</small></div></div>
+        <small class="version">Teacher Attendance · v2.0</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div><div class="eyebrow">SCHOOL MANAGEMENT</div><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions">
+          <span class="today-chip" id="todayLabel"></span>
+          <div class="avatar">AD</div>
+        </div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row">
+          <div><h2>Good day, Administrator <span>👋</span></h2><p>Here is your school's attendance overview.</p></div>
+          <button class="btn btn-primary" data-go="attendance">＋ Take attendance</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total teachers</span><span class="stat-icon blue">♙</span></div><strong id="statTotal">0</strong><small>Registered teachers</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Present today</span><span class="stat-icon green">✓</span></div><strong id="statPresent">0</strong><small>Marked present</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Absent today</span><span class="stat-icon red">–</span></div><strong id="statAbsent">0</strong><small>Marked absent</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Late today</span><span class="stat-icon orange">◷</span></div><strong id="statLate">0</strong><small>Arrived late</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Today's attendance</h3><p>Overview for the selected day</p></div><button class="text-button" data-go="reports">View reports →</button></div>
+            <div class="attendance-summary">
+              <div class="donut" id="attendanceDonut"><div><strong id="attendanceRate">0%</strong><small>Attendance</small></div></div>
+              <div class="legend">
+                <div><i class="legend-dot present"></i><span>Present</span><b id="legendPresent">0</b></div>
+                <div><i class="legend-dot absent"></i><span>Absent</span><b id="legendAbsent">0</b></div>
+                <div><i class="legend-dot late"></i><span>Late</span><b id="legendLate">0</b></div>
+                <div><i class="legend-dot leave"></i><span>Leave</span><b id="legendLeave">0</b></div>
+              </div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Quick actions</h3><p>Common tasks</p></div></div>
+            <div class="quick-actions">
+              <button class="quick-action" data-go="teachers"><span class="quick-icon">＋</span><span><b>Add a teacher</b><small>Register a new teacher</small></span><span class="arrow">→</span></button>
+              <button class="quick-action" data-go="attendance"><span class="quick-icon">✓</span><span><b>Mark attendance</b><small>Record today's status</small></span><span class="arrow">→</span></button>
+              <button class="quick-action" data-go="reports"><span class="quick-icon">▤</span><span><b>View reports</b><small>Daily and monthly records</small></span><span class="arrow">→</span></button>
+            </div>
+          </article>
+        </div>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Recent attendance</h3><p>Latest saved records</p></div><button class="text-button" data-go="attendance">Manage attendance →</button></div>
+          <div class="table-wrap"><table><thead><tr><th>TEACHER</th><th>DATE</th><th>STATUS</th></tr></thead><tbody id="recentTable"></tbody></table></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-teachers">
+        <div class="page-intro"><div><h2>Teacher directory</h2><p>Add, update, search, and manage teacher information.</p></div><button class="btn btn-primary" id="addTeacherBtn">＋ Add teacher</button></div>
+        <article class="panel">
+          <div class="toolbar"><div class="search-box"><span>⌕</span><input id="teacherSearch" type="search" placeholder="Search by name, subject or ID..."></div><span class="result-count" id="teacherCount">0 teachers</span></div>
+          <div class="table-wrap"><table><thead><tr><th>TEACHER</th><th>TEACHER ID</th><th>SUBJECT</th><th>PHONE</th><th>ACTIONS</th></tr></thead><tbody id="teachersTable"></tbody></table></div>
+          <div class="empty-state" id="teachersEmpty"><div>♙</div><b>No teachers yet</b><p>Add your first teacher to get started.</p><button class="btn btn-primary btn-small" id="emptyAddBtn">＋ Add teacher</button></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-attendance">
+        <div class="page-intro"><div><h2>Attendance register</h2><p>Record each teacher's attendance for a selected date.</p></div><div class="date-field"><label for="attendanceDate">ATTENDANCE DATE</label><input type="date" id="attendanceDate"></div></div>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Teacher attendance</h3><p>Choose a status for every teacher, then save.</p></div><button class="btn btn-primary" id="saveAttendanceBtn">Save attendance</button></div>
+          <div class="attendance-tools"><div class="search-box"><span>⌕</span><input id="attendanceSearch" type="search" placeholder="Find a teacher..."></div><div class="status-hint"><span class="pill present">Present</span><span class="pill absent">Absent</span><span class="pill late">Late</span><span class="pill leave">Leave</span></div></div>
+          <div class="table-wrap"><table><thead><tr><th>TEACHER</th><th>SUBJECT</th><th>STATUS</th></tr></thead><tbody id="attendanceTable"></tbody></table></div>
+          <div class="empty-state" id="attendanceEmpty"><div>✓</div><b>No teachers to mark</b><p>Add teachers in the Teacher directory first.</p><button class="btn btn-primary btn-small" data-go="teachers">Go to teachers</button></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-reports">
+        <div class="page-intro"><div><h2>Attendance reports</h2><p>Review daily and monthly attendance records.</p></div><button class="btn btn-primary" id="exportBtn">↓ Export to Excel</button></div>
+        <article class="panel">
+          <div class="report-tabs"><button class="report-tab active" data-report="daily">Daily report</button><button class="report-tab" data-report="monthly">Monthly report</button></div>
+          <div class="report-filters"><div class="date-field" id="dailyFilter"><label for="reportDate">SELECT DATE</label><input type="date" id="reportDate"></div><div class="date-field hidden" id="monthlyFilter"><label for="reportMonth">SELECT MONTH</label><input type="month" id="reportMonth"></div><div class="report-total" id="reportTotal">0 records</div></div>
+          <div class="report-stats" id="reportStats"></div>
+          <div class="table-wrap"><table><thead id="reportHead"></thead><tbody id="reportTable"></tbody></table></div>
+          <div class="empty-state" id="reportEmpty"><div>▤</div><b>No attendance records</b><p>Records you save will appear here.</p></div>
+        </article>
+      </section>
+
+      <footer class="footer"><span>TeachTrack · Teacher Attendance Management</span><span>Changes save automatically in this browser</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="teacherModal" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-heading"><div><h3 id="modalTitle">Add teacher</h3><p>Enter the teacher's information below.</p></div><button class="close-btn" id="closeModal" aria-label="Close">×</button></div>
+      <form id="teacherForm">
+        <input type="hidden" id="editTeacherId">
+        <label>Full name <input id="teacherName" type="text" placeholder="e.g. Sok Dara" required maxlength="80"></label>
+        <div class="form-row"><label>Teacher ID <input id="teacherId" type="text" placeholder="e.g. T-001" required maxlength="24"></label><label>Subject <input id="teacherSubject" type="text" placeholder="e.g. Mathematics" required maxlength="60"></label></div>
+        <label>Phone number <input id="teacherPhone" type="tel" placeholder="Optional" maxlength="30"></label>
+        <div class="modal-actions"><button type="button" class="btn btn-light" id="cancelModal">Cancel</button><button type="submit" class="btn btn-primary">Save teacher</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
